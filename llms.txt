@@ -1,0 +1,46 @@
+# claude-skill-release-doi
+
+> A Claude Code skill (documentation-only, MIT, v0.1.0 Unreleased) that runs the release workflow for DOI-registered research repositories following the identifier-federation triplet from [`authorship-strategy`](https://github.com/shimo4228/authorship-strategy) (ADRs 0001-0003). Five-phase runbook plus one post-release phase, preventing the most common release-time drift incidents (off-by-one concept-vs-version DOI canonicalization, missed sibling cross-reference updates, accidental version-DOI propagation).
+
+## Core documentation
+
+- [SKILL.md](skills/release-doi/SKILL.md): full skill specification — five-phase runbook (Baseline, CODEMAPS regeneration, Cross-document consistency, Verify, Release execution) plus post-release phase (DOI minting wait, concept-DOI verification, citation-metadata follow-up commit)
+- [README.md](README.md): human-facing narrative (when to use, install, how it works, key concept, related skills)
+- [CHANGELOG.md](CHANGELOG.md): release notes
+
+## Five phases
+
+1. **Baseline** — capture pre-release ground truth (commit count, file count, test count)
+2. **CODEMAPS regeneration** — re-generate file-level architecture maps
+3. **Cross-document consistency** — sync CHANGELOG / CITATION.cff / .zenodo.json / multilingual README / llms.txt / glossary / ADR bidirectional links
+4. **Verify** — CITATION.cff syntax, version triple, lint and test pass, secret scan, unintended-file check
+5. **Release execution** — stage specific files, HEREDOC commit, tag, push, create the release object that triggers the archive webhook
+
+Post-release: wait for DOI minting, verify the concept DOI is being propagated (not the initial version DOI — the load-bearing single discipline of this skill), update CITATION.cff and .zenodo.json with the concept DOI, follow-up commit.
+
+## Key concept
+
+The concept DOI (parent record, latest-version-resolving) and the initial version DOI are typically issued as adjacent integers at first deposit. A user copying the citation snippet from the just-published version's UI page usually copies the wrong one. The skill's post-release phase explicitly asks the operator to verify which DOI is being propagated. The skill exists in part to prevent the sixteen-file drift incident that produced [ADR-0001 of the upstream research line](https://github.com/shimo4228/authorship-strategy/blob/main/docs/adr/0001-concept-doi-canonical.md) from recurring.
+
+## Doctrine repository
+
+- [authorship-strategy](https://github.com/shimo4228/authorship-strategy): the normative framework whose ADRs 0001-0003 (identifier-federation triplet) this skill instantiates as a release-time workflow
+
+## Sibling component skill
+
+- [claude-skill-authorship-strategy](https://github.com/shimo4228/claude-skill-authorship-strategy): the framework's judgment-checklist form; determines whether an artifact is in scope before this release-time skill is invoked
+
+## Related ecosystem skills
+
+- [claude-skill-context-sync](https://github.com/shimo4228/claude-skill-context-sync): Phase 3 delegates drift detection to this skill
+- [claude-skill-llms-txt-writer](https://github.com/shimo4228/claude-skill-llms-txt-writer): used during Phase 3 for llms.txt regeneration
+- [claude-skill-jsonld-knowledge-graph](https://github.com/shimo4228/claude-skill-jsonld-knowledge-graph): used during Phase 4 for graph validation
+
+## Sibling research lines
+
+The skill operates on artifacts in the author's research program:
+
+- [authorship-strategy](https://github.com/shimo4228/authorship-strategy)
+- [agent-knowledge-cycle (AKC)](https://github.com/shimo4228/agent-knowledge-cycle) — DOI 10.5281/zenodo.19200726
+- [contemplative-agent](https://github.com/shimo4228/contemplative-agent) — DOI 10.5281/zenodo.19212118
+- [agent-attribution-practice (AAP)](https://github.com/shimo4228/agent-attribution-practice) — DOI 10.5281/zenodo.19652013
