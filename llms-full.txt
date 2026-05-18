@@ -12,7 +12,7 @@ This document is the self-contained AI reference for `claude-skill-release-doi` 
 - **GitHub**: https://github.com/shimo4228/claude-skill-release-doi
 - **Author**: shimo4228 (shimomoto-tatsuya), ORCID 0009-0002-6168-4162
 - **Doctrine repository**: [authorship-strategy](https://github.com/shimo4228/authorship-strategy)
-- **Sibling component skill**: [claude-skill-authorship-strategy](https://github.com/shimo4228/claude-skill-authorship-strategy)
+- **Peer components**: [claude-skill-authorship-strategy](https://github.com/shimo4228/claude-skill-authorship-strategy), [claude-skill-llms-txt-writer](https://github.com/shimo4228/claude-skill-llms-txt-writer), [claude-skill-jsonld-knowledge-graph](https://github.com/shimo4228/claude-skill-jsonld-knowledge-graph)
 - **Runtime**: None (documentation-only skill); invokes `git`, optional `python3 -m json.tool`, optional `cffconvert`
 - **Source files**: `skills/release-doi/SKILL.md`
 - **Skill install path**: `~/.claude/skills/release-doi/`

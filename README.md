@@ -64,8 +64,13 @@ This is not a hypothetical concern: the upstream research line's [ADR-0001](http
 ## Related research and skills
 
 - **Doctrine repository**: [authorship-strategy](https://github.com/shimo4228/authorship-strategy) — the normative framework, five tactical ADRs (especially the identifier-federation triplet 0001-0003), and empirical baseline this skill is the operational instantiation of
-- **Sibling component skill**: [claude-skill-authorship-strategy](https://github.com/shimo4228/claude-skill-authorship-strategy) — the framework's judgment-checklist form; this release-time skill assumes the framework has already determined the artifact is in-scope
-- **Sibling research lines**: [Agent Knowledge Cycle (AKC)](https://github.com/shimo4228/agent-knowledge-cycle), [Contemplative Agent](https://github.com/shimo4228/contemplative-agent), [Agent Attribution Practice (AAP)](https://github.com/shimo4228/agent-attribution-practice)
+- **Peer components** (other component skills of the same framework):
+  - [claude-skill-authorship-strategy](https://github.com/shimo4228/claude-skill-authorship-strategy) — the framework's judgment-checklist form; this release-time skill assumes the framework has already determined the artifact is in-scope
+  - [claude-skill-llms-txt-writer](https://github.com/shimo4228/claude-skill-llms-txt-writer) — operationalizes Layer 4 tactic 7's Answer.AI `llms.txt` convention; this release skill's Phase 3 invokes it when llms.txt regeneration is needed
+  - [claude-skill-jsonld-knowledge-graph](https://github.com/shimo4228/claude-skill-jsonld-knowledge-graph) — operationalizes Layer 4 tactic 7's JSON-LD knowledge graph; this release skill's Phase 4 uses its verification commands
+- **Sibling research lines** (at the research-program level): [Agent Knowledge Cycle (AKC)](https://github.com/shimo4228/agent-knowledge-cycle), [Contemplative Agent](https://github.com/shimo4228/contemplative-agent), [Agent Attribution Practice (AAP)](https://github.com/shimo4228/agent-attribution-practice)
+
+> **Terminology note.** This ecosystem reserves *sibling* for research-line-level peers; at the component-skill level the term *peer component* is used instead.
 
 ## License
 

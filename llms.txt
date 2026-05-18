@@ -26,9 +26,15 @@ The concept DOI (parent record, latest-version-resolving) and the initial versio
 
 - [authorship-strategy](https://github.com/shimo4228/authorship-strategy): the normative framework whose ADRs 0001-0003 (identifier-federation triplet) this skill instantiates as a release-time workflow
 
-## Sibling component skill
+## Peer components
+
+Other component skills of the same framework:
 
 - [claude-skill-authorship-strategy](https://github.com/shimo4228/claude-skill-authorship-strategy): the framework's judgment-checklist form; determines whether an artifact is in scope before this release-time skill is invoked
+- [claude-skill-llms-txt-writer](https://github.com/shimo4228/claude-skill-llms-txt-writer): operationalizes Layer 4 tactic 7's Answer.AI `llms.txt` convention; Phase 3 invokes it when llms.txt regeneration is needed
+- [claude-skill-jsonld-knowledge-graph](https://github.com/shimo4228/claude-skill-jsonld-knowledge-graph): operationalizes Layer 4 tactic 7's JSON-LD knowledge graph; Phase 4 uses its verification commands
+
+Terminology: *sibling* is reserved for research-line-level peers; at the component-skill level the term *peer component* is used.
 
 ## Related ecosystem skills
 
