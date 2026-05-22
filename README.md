@@ -36,8 +36,9 @@ Adapt the install path to your harness's skill convention. The skill's runbook i
 
 ## How it works
 
-The skill walks through five sequential phases plus one post-release phase. Each phase has an explicit completion condition; the skill refuses to advance until the condition is met.
+The skill walks through a pre-flight gate, five sequential phases, and one post-release phase. Each phase has an explicit completion condition; the skill refuses to advance until the condition is met.
 
+0. **Pre-flight: Zenodo opt-in check** — verifies the Zenodo GitHub webhook is registered on the target repository (`gh api repos/<owner>/<repo>/hooks`). Zenodo's GitHub integration is **repo-by-repo opt-in**; releases cut before the toggle is enabled are not retroactively archived. This gate catches the gap on first release of a new DOI repository — a blind spot when sibling repos are already opted in.
 1. **Phase 1: Baseline** — capture the pre-release ground truth (commit count, file count, test count where applicable). This is the reference state against which Phase 4 verifies.
 2. **Phase 2: CODEMAPS regeneration** — re-generate file-level architecture maps so they reflect the to-be-released state.
 3. **Phase 3: Cross-document consistency** — sync CHANGELOG / CITATION.cff / `.zenodo.json` / `pyproject.toml` (where applicable) / multilingual README / llms.txt / glossary / ADR bidirectional links. Drift detection delegated to context-sync where available.

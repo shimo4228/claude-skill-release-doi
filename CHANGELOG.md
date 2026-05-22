@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Phase 0 Zenodo opt-in pre-flight check — detects Zenodo GitHub webhook registration via `gh api repos/<owner>/<repo>/hooks` before any release work begins, surfacing missing opt-in toggles for new DOI repositories
+- User-facing browser step for enabling the Zenodo opt-in toggle at `https://zenodo.org/account/settings/github/`
+- Recovery runbook for cases where opt-in lag caused the initial GitHub Release to not deposit to Zenodo (tag deletion + Release re-creation procedure)
+- Webhook delivery diagnostics via `gh api repos/<owner>/<repo>/hooks/<hook_id>/deliveries` to disambiguate opt-in failure modes from authentication-token expiry
+
+### Notes
+
+- Operational origin: doctrine-corpus v0.1.0 (2026-05-22) opt-in miss incident — the first new DOI repo of the year exposed the gap that sibling repos (AKC / AAP / contemplative-agent / authorship-strategy) had not surfaced because they were already opted in
+
 ### Planned
 
 - Initial public release.

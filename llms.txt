@@ -1,22 +1,23 @@
 # claude-skill-release-doi
 
-> A Claude Code skill (documentation-only, MIT, v0.1.0 Unreleased) that runs the release workflow for DOI-registered research repositories following the identifier-federation triplet from [`authorship-strategy`](https://github.com/shimo4228/authorship-strategy) (ADRs 0001-0003). Five-phase runbook plus one post-release phase, preventing the most common release-time drift incidents (off-by-one concept-vs-version DOI canonicalization, missed sibling cross-reference updates, accidental version-DOI propagation).
+> A Claude Code skill (documentation-only, MIT, v0.1.0 Unreleased) that runs the release workflow for DOI-registered research repositories following the identifier-federation triplet from [`authorship-strategy`](https://github.com/shimo4228/authorship-strategy) (ADRs 0001-0003). Pre-flight Zenodo opt-in check + five-phase runbook + one post-release phase, preventing the most common release-time drift incidents (off-by-one concept-vs-version DOI canonicalization, missed sibling cross-reference updates, accidental version-DOI propagation, opt-in lag on first release of a new DOI repository).
 
 ## Core documentation
 
-- [SKILL.md](skills/release-doi/SKILL.md): full skill specification — five-phase runbook (Baseline, CODEMAPS regeneration, Cross-document consistency, Verify, Release execution) plus post-release phase (DOI minting wait, concept-DOI verification, citation-metadata follow-up commit)
+- [SKILL.md](skills/release-doi/SKILL.md): full skill specification — Pre-flight Zenodo opt-in check, five-phase runbook (Baseline, CODEMAPS regeneration, Cross-document consistency, Verify, Release execution), post-release phase (DOI minting wait, concept-DOI verification, citation-metadata follow-up commit), recovery runbook for missed initial deposit
 - [README.md](README.md): human-facing narrative (when to use, install, how it works, key concept, related skills)
 - [CHANGELOG.md](CHANGELOG.md): release notes
 
-## Five phases
+## Workflow phases
 
+0. **Pre-flight: Zenodo opt-in check** — verify the Zenodo GitHub webhook is registered on the target repository via `gh api repos/<owner>/<repo>/hooks`; the integration is repo-by-repo opt-in and not retroactive, so this gate catches missing toggles on first release of a new DOI repository
 1. **Baseline** — capture pre-release ground truth (commit count, file count, test count)
 2. **CODEMAPS regeneration** — re-generate file-level architecture maps
 3. **Cross-document consistency** — sync CHANGELOG / CITATION.cff / .zenodo.json / multilingual README / llms.txt / glossary / ADR bidirectional links
 4. **Verify** — CITATION.cff syntax, version triple, lint and test pass, secret scan, unintended-file check
 5. **Release execution** — stage specific files, HEREDOC commit, tag, push, create the release object that triggers the archive webhook
 
-Post-release: wait for DOI minting, verify the concept DOI is being propagated (not the initial version DOI — the load-bearing single discipline of this skill), update CITATION.cff and .zenodo.json with the concept DOI, follow-up commit.
+Post-release: wait for DOI minting, verify the concept DOI is being propagated (not the initial version DOI — the load-bearing single discipline of this skill), update CITATION.cff and .zenodo.json with the concept DOI, follow-up commit. If opt-in lag caused the initial GitHub Release to skip Zenodo deposit, the recovery runbook deletes the tag and Release object and re-creates them after opt-in is enabled.
 
 ## Key concept
 
